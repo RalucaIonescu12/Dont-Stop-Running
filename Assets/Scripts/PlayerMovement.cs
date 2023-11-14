@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
     private Animator animator;
     private Rigidbody m_rigidbody;
     // Start is called before the first frame update
+    public static int CurrentTile = 0;
     void Start()
     {
         animator = GetComponent<Animator>();
