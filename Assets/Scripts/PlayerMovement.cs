@@ -139,10 +139,18 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-
     void ToggleOff(string Name)
     {
         animator.SetBool(Name, false);
         isJumpDown = false;
     }
+
+    //TODO: VEZI CINE E OBS!!!! - VEZI BARK CAN
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    if(collision.collider.CompareTag("OBS"))
+    //    {
+    //        animator.SetBool("DEAD", true);
+    //    }
+    //}
 }
