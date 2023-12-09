@@ -51,6 +51,7 @@ MonoBehaviour:
   Plane_Coin: {fileID: 2561843809929699376}
   StartPos: {fileID: 4926208098783505844}
   EndPos: {fileID: 226390182081960054}
+  m_collider: {fileID: 5457142421754457814}
 --- !u!65 &5457142421754457814
 BoxCollider:
   m_ObjectHideFlags: 0

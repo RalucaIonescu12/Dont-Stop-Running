@@ -73,7 +73,15 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnAnimatorMove()
     {
-        if (animator.GetBool("Jump"))
+
+        if (animator.GetBool("FALL_DEAD"))
+        {
+
+            m_rigidbody.MovePosition(m_rigidbody.position + Vector3.down * animator.deltaPosition.magnitude);
+        }
+
+
+        else if (animator.GetBool("Jump"))
         {
             if (isJumpDown)
             {
@@ -111,7 +119,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            m_rigidbody.MovePosition(m_rigidbody.position + Vector3.forward * animator.deltaPosition.magnitude);
+            m_rigidbody.MovePosition(m_rigidbody.position + new Vector3(0,0,1.5f) * animator.deltaPosition.magnitude);
         }
 
         if (Left)
@@ -146,11 +154,29 @@ public class PlayerMovement : MonoBehaviour
     }
 
     //TODO: VEZI CINE E OBS!!!! - VEZI BARK CAN
-    //private void OnCollisionEnter(Collision collision)
-    //{
-    //    if(collision.collider.CompareTag("OBS"))
-    //    {
-    //        animator.SetBool("DEAD", true);
-    //    }
-    //}
+    private void OnCollisionEnter(Collision collision)
+    {
+        //if (collision.collider.CompareTag("OBS"))
+        //{
+        //    animator.SetBool("DEAD", true);
+        //}
+
+        if (collision.collider.CompareTag("FALL_DAMAGE"))
+        {
+            animator.SetBool("FALL_DEAD", true);
+        }
+    }
+
+    [SerializeField] private GameObject Camera_obj;
+
+    private void OnTriggerEnter(Collider other)
+    {
+
+        if (other.CompareTag("FALL_DAMAGE"))
+        {
+            Camera_obj.transform.parent = null;
+            animator.SetBool("FALL_DEAD", true);
+        }
+
+    }
 }

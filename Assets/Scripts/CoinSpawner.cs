@@ -9,13 +9,13 @@ public class CoinSpawner : MonoBehaviour
     public Transform EndPos;
 
     private float Current_Coin_Position;
-    //[SerializeField] private BoxCollider m_collider;
+    [SerializeField] private BoxCollider m_collider;
     // Start is called before the first frame update
     void Start()
     {
         Plane_Coin.SetActive(false);
-        //m_collider.center = new Vector3(m_collider.center.x, m_collider.center.y, m_collider.center.z / transform.localScale.z);
-        //m_collider.size = new Vector3(m_collider.size.x, m_collider.size.y, m_collider.size.z / transform.localScale.z);
+        m_collider.center = new Vector3(m_collider.center.x, m_collider.center.y, m_collider.center.z / transform.localScale.z);
+        m_collider.size = new Vector3(m_collider.size.x, m_collider.size.y, m_collider.size.z / transform.localScale.z);
         //Current_Coin_Position = StartPos.position.z;
         //while (Current_Coin_Position < EndPos.position.z)
         //{
