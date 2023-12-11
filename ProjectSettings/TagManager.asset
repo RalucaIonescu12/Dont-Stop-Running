@@ -6,6 +6,7 @@ TagManager:
   tags:
   - FALL_DAMAGE
   - Magnet
+  - DISABLE_FLY
   layers:
   - Default
   - TransparentFX

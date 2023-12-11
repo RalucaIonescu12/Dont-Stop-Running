@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody m_rigidbody;
     // Start is called before the first frame update
     public static int CurrentTile = 0;
+    public static bool IsFlying = false;
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -20,6 +21,12 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(IsFlying)
+        {
+            animator.SetBool("FLYING", true);
+            m_rigidbody.useGravity = false;
+            IsFlying = false;
+        }
         if (Input.GetKeyUp(KeyCode.Space))
         {
             animator.SetBool("Run", true);
@@ -79,7 +86,14 @@ public class PlayerMovement : MonoBehaviour
 
             m_rigidbody.MovePosition(m_rigidbody.position + Vector3.down * animator.deltaPosition.magnitude);
         }
+        else if (animator.GetBool("FLYING"))
+        {
+            if (m_rigidbody.position.y < 10)
+                m_rigidbody.MovePosition(m_rigidbody.position + new Vector3(0, 3, 3) * animator.deltaPosition.magnitude);
+            else
+                m_rigidbody.MovePosition(m_rigidbody.position + new Vector3(0, 0, 3) * animator.deltaPosition.magnitude);
 
+        }
 
         else if (animator.GetBool("Jump"))
         {
@@ -176,6 +190,12 @@ public class PlayerMovement : MonoBehaviour
         {
             Camera_obj.transform.parent = null;
             animator.SetBool("FALL_DEAD", true);
+        }
+        else if (other.CompareTag("DISABLE_FLY"))
+        {
+            animator.SetBool("FLYING", false);
+            m_rigidbody.useGravity = true;
+
         }
 
     }
