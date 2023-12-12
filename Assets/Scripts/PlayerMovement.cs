@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     public static int CurrentTile = 0;
     public static bool IsFlying = false;
+    [SerializeField] private GameObject Wings;
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -21,27 +22,26 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(IsFlying)
+        if(IsFlying && !animator.GetBool("FLYING"))
         {
             animator.SetBool("FLYING", true);
             m_rigidbody.useGravity = false;
-            IsFlying = false;
         }
         if (Input.GetKeyUp(KeyCode.Space))
         {
             animator.SetBool("Run", true);
         }
-        else if (Input.GetKeyUp(KeyCode.S))
+        else if (Input.GetKeyUp(KeyCode.S) && !animator.GetBool("FLYING"))
         {
             animator.SetBool("Slide", true);
         }
-        else if (Input.GetKeyUp(KeyCode.W))
+        else if (Input.GetKeyUp(KeyCode.W) && !animator.GetBool("FLYING"))
         {
             animator.SetBool("Jump", true);
         }
         else if (Input.GetKeyUp(KeyCode.D))
         {
-            if (!animator.GetBool("Jump") && !animator.GetBool("Slide"))
+            if (!animator.GetBool("Jump") && !animator.GetBool("Slide") && !animator.GetBool("FLYING"))
                 animator.SetBool("Right", true);
             else
                 Right = true;
@@ -56,7 +56,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (Input.GetKeyUp(KeyCode.A))
         {
-            if (!animator.GetBool("Jump") && !animator.GetBool("Slide"))
+            if (!animator.GetBool("Jump") && !animator.GetBool("Slide") && !animator.GetBool("FLYING"))
                 animator.SetBool("Left", true);
             else
                 Left = true;
@@ -88,7 +88,17 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (animator.GetBool("FLYING"))
         {
-            if (m_rigidbody.position.y < 10)
+            if (!IsFlying)
+            {
+                if (m_rigidbody.position.y > 2)
+                    m_rigidbody.MovePosition(m_rigidbody.position + new Vector3(0, -1.5F, 1) * animator.deltaPosition.magnitude);
+                else
+                {
+                    Wings.SetActive(false);
+                    animator.SetBool("FLYING", false);
+                }
+            }
+            else if (m_rigidbody.position.y < 10)
                 m_rigidbody.MovePosition(m_rigidbody.position + new Vector3(0, 3, 3) * animator.deltaPosition.magnitude);
             else
                 m_rigidbody.MovePosition(m_rigidbody.position + new Vector3(0, 0, 3) * animator.deltaPosition.magnitude);
@@ -193,9 +203,8 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (other.CompareTag("DISABLE_FLY"))
         {
-            animator.SetBool("FLYING", false);
+            IsFlying = false;
             m_rigidbody.useGravity = true;
-
         }
 
     }
