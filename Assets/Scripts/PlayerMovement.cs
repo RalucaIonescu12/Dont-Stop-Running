@@ -25,6 +25,8 @@ public class PlayerMovement : MonoBehaviour
         if(IsFlying && !animator.GetBool("FLYING"))
         {
             animator.SetBool("FLYING", true);
+            animator.SetBool("Slide", false);
+            animator.SetBool("Jump", false);
             m_rigidbody.useGravity = false;
         }
         if (Input.GetKeyUp(KeyCode.Space))
@@ -33,10 +35,15 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (Input.GetKeyUp(KeyCode.S) && !animator.GetBool("FLYING"))
         {
+            animator.SetBool("Jump", false);
             animator.SetBool("Slide", true);
         }
         else if (Input.GetKeyUp(KeyCode.W) && !animator.GetBool("FLYING"))
         {
+            m_rigidbody.position = new Vector3(Next_x_POS, transform.position.y, transform.position.z);
+            animator.SetBool("Slide", false);
+            animator.SetBool("Left", false);
+            animator.SetBool("Right", false);
             animator.SetBool("Jump", true);
         }
         else if (Input.GetKeyUp(KeyCode.D))
@@ -88,10 +95,11 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (animator.GetBool("FLYING"))
         {
+            m_rigidbody.velocity = Vector3.zero;
             if (!IsFlying)
             {
                 if (m_rigidbody.position.y > 2)
-                    m_rigidbody.MovePosition(m_rigidbody.position + new Vector3(0, -1.5F, 1) * animator.deltaPosition.magnitude);
+                    m_rigidbody.MovePosition(m_rigidbody.position + new Vector3(0, -1.5f, 1) * animator.deltaPosition.magnitude);
                 else
                 {
                     Wings.SetActive(false);
@@ -99,9 +107,9 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
             else if (m_rigidbody.position.y < 10)
-                m_rigidbody.MovePosition(m_rigidbody.position + new Vector3(0, 3, 3) * animator.deltaPosition.magnitude);
+                m_rigidbody.MovePosition(m_rigidbody.position + new Vector3(0, 3, 2.5f) * animator.deltaPosition.magnitude);
             else
-                m_rigidbody.MovePosition(m_rigidbody.position + new Vector3(0, 0, 3) * animator.deltaPosition.magnitude);
+                m_rigidbody.MovePosition(m_rigidbody.position + new Vector3(0, 0, 2.5f) * animator.deltaPosition.magnitude);
 
         }
 
@@ -119,24 +127,26 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (animator.GetBool("Right"))
         {
-            if (m_rigidbody.position.x < Next_x_POS)
+            if (m_rigidbody.position.x <= Next_x_POS)
             {
-                m_rigidbody.MovePosition(m_rigidbody.position + new Vector3(1, 0, 1.5f) * animator.deltaPosition.magnitude);
+                m_rigidbody.MovePosition(m_rigidbody.position + new Vector3(3, 0, 1.5f) * animator.deltaPosition.magnitude);
             }
             else
             {
+                m_rigidbody.position = new Vector3(Next_x_POS, transform.position.y, transform.position.z);
                 animator.SetBool("Right", false);
             }
 
         }
         else if (animator.GetBool("Left"))
         {
-            if (m_rigidbody.position.x > Next_x_POS)
+            if (m_rigidbody.position.x >= Next_x_POS)
             {
-                m_rigidbody.MovePosition(m_rigidbody.position + new Vector3(-1, 0, 1.5f) * animator.deltaPosition.magnitude);
+                m_rigidbody.MovePosition(m_rigidbody.position + new Vector3(-3, 0, 1.5f) * animator.deltaPosition.magnitude);
             }
             else
             {
+                m_rigidbody.position = new Vector3(Next_x_POS, transform.position.y, transform.position.z);
                 animator.SetBool("Left", false);
             }
 
@@ -180,10 +190,10 @@ public class PlayerMovement : MonoBehaviour
     //TODO: VEZI CINE E OBS!!!! - VEZI BARK CAN
     private void OnCollisionEnter(Collision collision)
     {
-        //if (collision.collider.CompareTag("OBS"))
-        //{
-        //    animator.SetBool("DEAD", true);
-        //}
+        if (collision.collider.CompareTag("OBS"))
+        {
+            animator.SetBool("DEAD", true);
+        }
 
         if (collision.collider.CompareTag("FALL_DAMAGE"))
         {
@@ -206,6 +216,7 @@ public class PlayerMovement : MonoBehaviour
             IsFlying = false;
             m_rigidbody.useGravity = true;
         }
+        
 
     }
 }

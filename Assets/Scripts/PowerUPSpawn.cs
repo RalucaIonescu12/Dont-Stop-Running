@@ -6,15 +6,22 @@ public class PowerUPSpawn : MonoBehaviour
 {
     [SerializeField] private GameObject Magnet;
     [SerializeField] private GameObject Wings;
+    [SerializeField] private float PowerUPSpawnPercent;
 
     private void OnTriggerEnter(Collider other)
     {
-        GameObject Power = Wings;
-        if(Random.value > 0.5)
+        float rand = Random.Range(0, 100);
+        if(rand < PowerUPSpawnPercent)
         {
-            Power = Wings;
+            GameObject Power = Magnet;
+
+            if (Random.value > 0.5)
+            {
+                Power = Wings;
+            }
+            Power.SetActive(true);
+            Power.transform.position = this.transform.position;
+
         }
-        Power.SetActive(true);
-        Power.transform.position = this.transform.position;
     }
  }

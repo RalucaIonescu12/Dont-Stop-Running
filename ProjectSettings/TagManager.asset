@@ -7,6 +7,7 @@ TagManager:
   - FALL_DAMAGE
   - Magnet
   - DISABLE_FLY
+  - OBS
   layers:
   - Default
   - TransparentFX
