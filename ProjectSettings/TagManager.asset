@@ -8,6 +8,7 @@ TagManager:
   - Magnet
   - DISABLE_FLY
   - OBS
+  - Coins
   layers:
   - Default
   - TransparentFX

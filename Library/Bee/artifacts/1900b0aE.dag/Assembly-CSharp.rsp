@@ -356,6 +356,7 @@
 "Assets/Scripts/ACTIVATE_FLY_POWER.cs"
 "Assets/Scripts/CoinSpawner.cs"
 "Assets/Scripts/FloatingOrigin.cs"
+"Assets/Scripts/GAME_OVER.cs"
 "Assets/Scripts/MagnetPower.cs"
 "Assets/Scripts/ObjectPool.cs"
 "Assets/Scripts/ON_TRIGGER_FALSE.cs"

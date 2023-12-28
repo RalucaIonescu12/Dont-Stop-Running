@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using TMPro;
+using UnityEngine.SceneManagement;
 public class PlayerMovement : MonoBehaviour
 {
     private Animator animator;
@@ -10,8 +11,13 @@ public class PlayerMovement : MonoBehaviour
     public static int CurrentTile = 0;
     public static bool IsFlying = false;
     [SerializeField] private GameObject Wings;
-    void Start()
+    [SerializeField] private GameObject StartScreen, UI_SCREEN;
+    [SerializeField] private TextMeshProUGUI Inv_coins;
+    private int INV_COINS;
+   void Start()
     {
+        INV_COINS = PlayerPrefs.GetInt("InventoryCoins");
+        Inv_coins.text = INV_COINS.ToString();
         animator = GetComponent<Animator>();
         m_rigidbody = GetComponent<Rigidbody>();
 
@@ -22,7 +28,15 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(IsFlying && !animator.GetBool("FLYING"))
+        if (animator.GetBool("FALL_DEAD") || animator.GetBool("DEAD"))
+        {
+            PlayerPrefs.SetInt("InventoryCoins", CoinsCollected + INV_COINS);
+
+            PlayerPrefs.SetInt("CoinsCollected", CoinsCollected);
+            SceneManager.LoadScene("GAME_OVER_SCENE");
+        }
+
+        if (IsFlying && !animator.GetBool("FLYING"))
         {
             animator.SetBool("FLYING", true);
             animator.SetBool("Slide", false);
@@ -31,6 +45,8 @@ public class PlayerMovement : MonoBehaviour
         }
         if (Input.GetKeyUp(KeyCode.Space))
         {
+            UI_SCREEN.SetActive(true);
+            StartScreen.SetActive(false);
             animator.SetBool("Run", true);
         }
         else if (Input.GetKeyUp(KeyCode.S) && !animator.GetBool("FLYING"))
@@ -202,7 +218,8 @@ public class PlayerMovement : MonoBehaviour
     }
 
     [SerializeField] private GameObject Camera_obj;
-
+    [SerializeField] private TextMeshProUGUI CoinsText;
+    private int CoinsCollected;
     private void OnTriggerEnter(Collider other)
     {
 
@@ -216,7 +233,11 @@ public class PlayerMovement : MonoBehaviour
             IsFlying = false;
             m_rigidbody.useGravity = true;
         }
-        
+        else if (other.CompareTag("Coins"))
+        {
+            CoinsCollected++;
+            CoinsText.text = CoinsCollected.ToString();
+        }
 
     }
 }
