@@ -14,13 +14,16 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private GameObject StartScreen, UI_SCREEN;
     [SerializeField] private TextMeshProUGUI Inv_coins;
     private int INV_COINS;
-   void Start()
+   
+    
+    void Start()
     {
         INV_COINS = PlayerPrefs.GetInt("InventoryCoins");
         Inv_coins.text = INV_COINS.ToString();
         animator = GetComponent<Animator>();
         m_rigidbody = GetComponent<Rigidbody>();
-
+        
+        //animator = Resources.Load<GameObject>("Assets/Prefab/AvatarPrefab.prefab");/
     }
 
     private int Next_x_POS;
