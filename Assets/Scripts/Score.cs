@@ -14,6 +14,7 @@ public class Score : MonoBehaviour
 
     void Start()
     {
+        score = 0;
         highScore.text = PlayerPrefs.GetInt("HighScore", 0).ToString();
     }
 
