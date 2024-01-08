@@ -5,8 +5,10 @@ using TMPro;
 using UnityEngine.SceneManagement;
 public class PlayerMovement : MonoBehaviour
 {
+    [SerializeField] private AudioClip Coin, Jump;
     private Animator animator;
     private Rigidbody m_rigidbody;
+    private AudioSource m_audioSource;
     // Start is called before the first frame update
     public static int CurrentTile = 0;
     public static bool IsFlying = false;
@@ -22,6 +24,7 @@ public class PlayerMovement : MonoBehaviour
         Inv_coins.text = INV_COINS.ToString();
         animator = GetComponent<Animator>();
         m_rigidbody = GetComponent<Rigidbody>();
+        m_audioSource = GetComponent<AudioSource>();
         
         //animator = Resources.Load<GameObject>("Assets/Prefab/AvatarPrefab.prefab");/
     }
@@ -59,6 +62,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (Input.GetKeyUp(KeyCode.W) && !animator.GetBool("FLYING"))
         {
+            m_audioSource.PlayOneShot(Jump);
             m_rigidbody.position = new Vector3(Next_x_POS, transform.position.y, transform.position.z);
             animator.SetBool("Slide", false);
             animator.SetBool("Left", false);
@@ -238,6 +242,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (other.CompareTag("Coins"))
         {
+            m_audioSource.PlayOneShot(Coin);
             CoinsCollected++;
             CoinsText.text = CoinsCollected.ToString();
         }
