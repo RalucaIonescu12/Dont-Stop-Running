@@ -221,8 +221,10 @@ public class PlayerMovement : MonoBehaviour
         if (collision.collider.CompareTag("FALL_DAMAGE"))
         {
             animator.SetBool("FALL_DEAD", true);
+           
         }
     }
+
 
     [SerializeField] private GameObject Camera_obj;
     [SerializeField] private TextMeshProUGUI CoinsText;
@@ -232,6 +234,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (other.CompareTag("FALL_DAMAGE"))
         {
+
             Camera_obj.transform.parent = null;
             animator.SetBool("FALL_DEAD", true);
         }
