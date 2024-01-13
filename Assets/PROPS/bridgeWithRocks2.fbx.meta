@@ -237,6 +237,16 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: ROCK.045
+    second: {fileID: 2100000, guid: 55fe58af0f3a60949bb0e1b505dc61cf, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: ROCK.046
+    second: {fileID: 2100000, guid: 55fe58af0f3a60949bb0e1b505dc61cf, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: corner
     second: {fileID: 2100000, guid: 3694ac657b24f18438d24ab786ad689e, type: 2}
   - first:
